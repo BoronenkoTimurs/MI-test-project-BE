@@ -1,16 +1,15 @@
 import express from "express";
 import mongoose from "mongoose";
-import { MONGOURL, PATH } from "./constants/app";
+import { MONGOURL, PATH } from "./constants/const";
+import exampleRouter from "./routes/exampleRoutes";
 
-const exampleRoutes = require("./routes/exampleRoutes");
 const app = express();
 
 app.use(express.json());
-
+app.use("/example", exampleRouter);
 app.get("/", (req, res, next) => {
   res.send("I am the main page! (Without router)");
 });
-app.use("/example", exampleRoutes);
 
 mongoose
   .connect(MONGOURL)
