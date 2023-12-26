@@ -9,6 +9,7 @@ import {
 
 const postRouter = Router();
 
+// Remove whit lines to another routes file
 postRouter.get("/", (req, res) => {
   try {
     res.send("Example homepage! (With router support)");
@@ -30,6 +31,7 @@ postRouter.get("/sub-section", (req, res) => {
     console.log(error);
   }
 });
+// Remove whit lines to another routes file
 
 // Posts <------------------------------------------>
 postRouter.get("/posts", getPosts);

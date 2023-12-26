@@ -18,7 +18,7 @@ export const addPost = async (req: Request, res: Response) => {
 
     return res.status(201).send(post);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: `Error while updating post!` });
   }
 };
@@ -30,7 +30,7 @@ export const getPosts = async (req: Request, res: Response) => {
       data: posts,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: `Error while showing all posts!` });
   }
 };
@@ -43,7 +43,7 @@ export const getPostByID = async (req: Request, res: Response) => {
       data: post,
     });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: `Error while showing post by ID!` });
   }
 };
@@ -60,7 +60,7 @@ export const deletePost = async (req: Request, res: Response) => {
     }
     return res.status(200).send({ message: `Post with id: ${id} deleted!` });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: `Error while deleting post!` });
   }
 };
@@ -82,7 +82,32 @@ export const updatePost = async (req: Request, res: Response) => {
     }
     return res.status(201).send({ message: `Post with id: ${id} updated!` });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return res.status(500).json({ message: `Error while updating post!` });
   }
 };
+
+// type PutPostRequestType = Request<IPost, { id: string }>;
+
+// export const updatePost = async (req: PutPostRequestType, res: Response) => {
+//   try {
+//     if (!req.body.title || !req.body.content || !req.body.author) {
+//       return res.status(400).send({
+//         message: "For updating send all required fields!",
+//       });
+//     }
+//     const id = req.query.id;
+
+//     const result = await Post.findByIdAndUpdate(id, req.body);
+
+//     if (!result) {
+//       return res
+//         .status(404)
+//         .json({ message: `Post with id: ${id} not found!` });
+//     }
+//     return res.status(201).send({ message: `Post with id: ${id} updated!` });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ message: `Error while updating post!` });
+//   }
+// };
