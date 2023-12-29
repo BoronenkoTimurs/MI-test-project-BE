@@ -1,15 +1,17 @@
 import express from "express";
 import mongoose from "mongoose";
-import { MONGOURL, PATH, MONGOTUTORIADB } from "./constants/const";
+import { MONGOURL, PATH } from "./constants/const";
 import postRouter from "./routes/post.routes";
 import authRouter from "./routes/auth.routes";
+import session from "express-session";
+import MongoStore from "connect-mongo";
+import userRouter from "./routes/user.routes";
 
-const session = require("express-session");
-const MongoStore = require("connect-mongo");
-
+const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 app.use(
   session({
     secret: "secret_key",
@@ -22,8 +24,9 @@ app.use(
     },
   })
 );
-app.use("/", postRouter);
 app.use("/", authRouter);
+app.use("/", userRouter);
+app.use("/", postRouter);
 
 mongoose
   .connect(MONGOURL)

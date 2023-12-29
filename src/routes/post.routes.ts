@@ -14,21 +14,21 @@ postRouter.get("/", (req, res) => {
   try {
     res.send("Example homepage! (With router support)");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 postRouter.get("/section", (req, res) => {
   try {
     res.send("Section page! (With router support)");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 postRouter.get("/sub-section", (req, res) => {
   try {
     res.send("Sub-section page! (With router support)");
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 });
 // Remove whit lines to another routes file

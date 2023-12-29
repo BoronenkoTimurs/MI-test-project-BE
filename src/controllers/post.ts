@@ -86,28 +86,3 @@ export const updatePost = async (req: Request, res: Response) => {
     return res.status(500).json({ message: `Error while updating post!` });
   }
 };
-
-// type PutPostRequestType = Request<IPost, { id: string }>;
-
-// export const updatePost = async (req: PutPostRequestType, res: Response) => {
-//   try {
-//     if (!req.body.title || !req.body.content || !req.body.author) {
-//       return res.status(400).send({
-//         message: "For updating send all required fields!",
-//       });
-//     }
-//     const id = req.query.id;
-
-//     const result = await Post.findByIdAndUpdate(id, req.body);
-
-//     if (!result) {
-//       return res
-//         .status(404)
-//         .json({ message: `Post with id: ${id} not found!` });
-//     }
-//     return res.status(201).send({ message: `Post with id: ${id} updated!` });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ message: `Error while updating post!` });
-//   }
-// };
