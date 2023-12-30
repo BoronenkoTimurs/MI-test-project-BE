@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { get, merge } from "lodash";
 import { getUserBySessionToken } from "../model/userModel";
+import { RequestWithIdentity } from "../types/app";
 
 export const isAuthenticated = async (
   req: Request,
@@ -11,13 +12,13 @@ export const isAuthenticated = async (
     const sessionToken = req.cookies["USER-AUTH"];
 
     if (!sessionToken) {
-      return res.status(403).send({ message: "Not exist USER-AUTH!" });
+      return res.status(403).json({ message: "Not exist USER-AUTH!" });
     }
 
     const existingUser = await getUserBySessionToken(sessionToken);
 
     if (!existingUser) {
-      return res.status(403).send({ message: "Not existing user!" });
+      return res.status(403).json({ message: "Not existing user!" });
     }
 
     merge(req, { identity: existingUser });
@@ -29,11 +30,7 @@ export const isAuthenticated = async (
       .json({ message: "Error with authenticated this user!" });
   }
 };
-interface RequestWithIdentity extends Request {
-  identity?: {
-    _id?: string;
-  };
-}
+
 export const isOwner = async (
   req: RequestWithIdentity,
   res: Response,
