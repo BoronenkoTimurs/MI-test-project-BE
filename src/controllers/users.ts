@@ -8,8 +8,12 @@ import {
 
 export const getAllUsers = async (req: Request, res: Response) => {
   try {
-    const allUsers = await getUsers();
-    return res.status(200).json({ const: allUsers.length, data: allUsers });
+    const users = await getUsers();
+    const response = {
+      count: users.length,
+      data: users,
+    };
+    return res.status(200).json(response);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ message: "Error with get all users!" });
@@ -19,17 +23,18 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const deleteUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const deletedUser = await deleteUserById(id);
+    const user = await deleteUserById(id);
 
-    if (!deletedUser) {
+    if (!user) {
       return res
         .status(404)
-        .json({ message: `Not existing user with id: ${id}` });
+        .json({ message: `User with id ${id} does not exist` });
     }
-    return res.status(200).json(deletedUser);
+
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error with delete user!" });
+    return res.status(500).json({ message: "Error deleting user" });
   }
 };
 export const updateUser = async (req: Request, res: Response) => {
@@ -58,21 +63,21 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 };
 export const updateCredentials = async (req: Request, res: Response) => {
-  try {
-    const { id } = req.params;
-    const values = req.body;
-    // Add error handler for id(maybe) and for credentials
-    const updatedUser = await updateUserById(id, values);
+  const { id } = req.params;
+  const values = req.body;
 
-    if (!updatedUser) {
-      return res
-        .status(404)
-        .json({ message: `Not existing user with id: ${id}` });
+  try {
+    const user = await updateUserById(id, values);
+
+    if (!user) {
+      return res.status(404).json({ message: `User with id ${id} not found` });
     }
-    await updatedUser.save();
-    return res.status(200).json(updatedUser);
+
+    await user.save();
+
+    return res.status(200).json(user);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error with update credentials!" });
+    return res.status(500).json({ message: "Error updating credentials" });
   }
 };
