@@ -1,14 +1,20 @@
 import express from "express";
 import mongoose from "mongoose";
-import { MONGOURL, PATH } from "./constants/const";
+import { MONGOURL, PATH, NODE_ENV } from "./constants/const";
 import postRouter from "./routes/post.routes";
 import authRouter from "./routes/auth.routes";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import userRouter from "./routes/user.routes";
+import cookieParser from "cookie-parser";
+import morgan from "morgan";
 
-const cookieParser = require("cookie-parser");
 const app = express();
+
+if (NODE_ENV === "development") {
+  app.use(morgan("tiny"));
+  console.log(`Enviroment: ${NODE_ENV}`);
+}
 
 app.use(express.json());
 app.use(cookieParser());
@@ -22,6 +28,8 @@ app.use(
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24,
     },
+    resave: false,
+    saveUninitialized: false,
   })
 );
 app.use("/", authRouter);
@@ -39,3 +47,5 @@ mongoose
   .catch((error) => {
     console.log(error);
   });
+
+console.log(`Enviroment: ${NODE_ENV}`);

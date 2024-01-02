@@ -1,6 +1,6 @@
 // Here write functions for posts page and use it in exampleRoutes.ts
 import { Request, Response } from "express";
-import { Post } from "../model/postModel";
+import { PostModel } from "../model/postModel";
 
 export const addPost = async (req: Request, res: Response) => {
   try {
@@ -14,7 +14,7 @@ export const addPost = async (req: Request, res: Response) => {
       content: req.body.content,
       author: req.body.author,
     };
-    const post = await Post.create(newPost);
+    const post = await PostModel.create(newPost);
 
     return res.status(201).send(post);
   } catch (error) {
@@ -24,7 +24,7 @@ export const addPost = async (req: Request, res: Response) => {
 };
 export const getPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await Post.find({});
+    const posts = await PostModel.find({});
     return res.status(200).json({
       count: posts.length,
       data: posts,
@@ -37,8 +37,13 @@ export const getPosts = async (req: Request, res: Response) => {
 export const getPostByID = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const post = await Post.findById(id);
+    const post = await PostModel.findById(id);
 
+    if (!post) {
+      return res
+        .status(404)
+        .json({ message: `Post with id: ${id} not found!` });
+    }
     return res.status(200).json({
       data: post,
     });
@@ -51,7 +56,7 @@ export const deletePost = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
-    const result = await Post.findByIdAndDelete(id);
+    const result = await PostModel.findByIdAndDelete(id);
 
     if (!result) {
       return res.status(404).json({
@@ -73,7 +78,7 @@ export const updatePost = async (req: Request, res: Response) => {
     }
     const { id } = req.params;
 
-    const result = await Post.findByIdAndUpdate(id, req.body);
+    const result = await PostModel.findByIdAndUpdate(id, req.body);
 
     if (!result) {
       return res

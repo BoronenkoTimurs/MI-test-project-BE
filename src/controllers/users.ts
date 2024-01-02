@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from "express";
+import { Request, Response } from "express";
 import {
   deleteUserById,
   getUserById,
@@ -32,13 +32,13 @@ export const deleteUser = async (req: Request, res: Response) => {
     return res.status(500).json({ message: "Error with delete user!" });
   }
 };
-export const udpateUser = async (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const { username } = req.body;
     if (!username) {
       return res
-        .status(400)
+        .status(404)
         .json({ message: `Not existing username: ${username}` });
     }
 

@@ -46,7 +46,7 @@ export const login = async (req: Request, res: Response) => {
     );
     if (!user) {
       return res
-        .status(400)
+        .status(404)
         .send({ message: `User with email: ${email} not exist!` });
     }
 
