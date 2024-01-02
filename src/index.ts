@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
-import { MONGOURL, PATH, NODE_ENV } from "./constants/const";
+import { MONGOURL, PORT, NODE_ENV } from "./constants/const";
 import postRouter from "./routes/post.routes";
 import authRouter from "./routes/auth.routes";
 import session from "express-session";
@@ -40,8 +40,8 @@ mongoose
   .connect(MONGOURL)
   .then(() => {
     console.log(`Webpage connected to database`);
-    app.listen(PATH, () => {
-      console.log(`Server is running on http:/localhost:${PATH}/`);
+    app.listen(PORT, () => {
+      console.log(`Server is running on http:/localhost:${PORT}/`);
     });
   })
   .catch((error) => {
